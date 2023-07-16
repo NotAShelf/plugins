@@ -1,0 +1,5 @@
+# ignore nix build artifacts
+result/
+
+# ignore direnv
+.direnv/
