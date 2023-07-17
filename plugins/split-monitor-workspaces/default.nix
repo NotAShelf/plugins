@@ -28,13 +28,12 @@ pkgs.stdenv.mkDerivation rec {
   '';
 
   buildPhase = ''
-    mkdir -p $out
+    mkdir -p $out/lib
     make all
   '';
 
   installPhase = ''
-    cp -v ${pname}.so $out
-
+    cp -v ${pname}.so $out/lib/lib${pname}.so
   '';
 
   meta = with pkgs.lib; {
