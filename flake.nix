@@ -2,7 +2,6 @@
   description = "Description for the project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     hyprland.url = "github:hyprwm/Hyprland";
 
     # plugins from their individual repositories
@@ -22,12 +21,13 @@
   outputs = {
     self,
     flake-parts,
-    nixpkgs,
     ...
   } @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [];
+
       systems = ["x86_64-linux" "aarch64-linux"];
+
       perSystem = {
         config,
         self',
@@ -36,6 +36,8 @@
         system,
         ...
       }: {
+        _module.args.pkgs = import inputs.hyprland.inputs.nixpkgs {inherit system;};
+
         packages = let
           lock = builtins.fromJSON (builtins.readFile ./flake.lock);
           nodes = lock.nodes;
