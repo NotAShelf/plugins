@@ -1,27 +1,25 @@
 {
-  pkgs,
+  inputs,
   hyprlandPackages,
   hyprlandBuildInputs,
-  lock,
+  lib,
+  stdenv,
+  cmake,
+  pkg-config,
+  jq,
+  whereis,
   ...
 }:
-pkgs.stdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   pname = "split-monitor-workspaces";
-  version = lock.locked.rev;
+  version = inputs.split-monitor-workspaces.rev;
 
-  src = pkgs.fetchFromGitHub {
-    owner = lock.locked.owner;
-    repo = lock.locked.repo;
-    rev = lock.locked.rev;
-    hash = lock.locked.narHash;
-  };
+  src = inputs.split-monitor-workspaces;
 
-  nativeBuildInputs = with pkgs; [cmake pkg-config];
-  buildInputs = [hyprlandPackages.dev pkgs.jq pkgs.unixtools.whereis] ++ hyprlandBuildInputs;
+  nativeBuildInputs = [cmake pkg-config];
+  buildInputs = [hyprlandPackages.dev jq whereis] ++ hyprlandBuildInputs;
 
-  configurePhase = ''
-
-  '';
+  dontConfigure = true;
 
   patchPhase = ''
     sed -i 's|INSTALL_LOCATION=''${HOME}/.local/share/hyprload/plugins/bin|INSTALL_LOCATION=$(shell echo $$out)|' Makefile
@@ -36,7 +34,7 @@ pkgs.stdenv.mkDerivation rec {
     cp -v ${pname}.so $out/lib/lib${pname}.so
   '';
 
-  meta = with pkgs.lib; {
+  meta = with lib; {
     homepage = "https://github.com/Duckonaut/split-monitor-workspaces";
     description = "A small Hyprland plugin to provide awesome-like workspace behavior ";
     license = licenses.bsd3;

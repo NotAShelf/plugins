@@ -34,22 +34,6 @@
         "type": "github"
       }
     },
-    "hyprNStack": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1688189775,
-        "narHash": "sha256-qjYrgFAu9T2Nr3HQ7syMcrK5VDV8DtYSb+Dwg54FuDc=",
-        "owner": "zakk4223",
-        "repo": "hyprNStack",
-        "rev": "17594b0f93da01b4f5dae495223535029aab8ac8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zakk4223",
-        "repo": "hyprNStack",
-        "type": "github"
-      }
-    },
     "hyprland": {
       "inputs": {
         "hyprland-protocols": "hyprland-protocols",
@@ -135,6 +119,22 @@
         "type": "github"
       }
     },
+    "hyprnstack": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1688189775,
+        "narHash": "sha256-qjYrgFAu9T2Nr3HQ7syMcrK5VDV8DtYSb+Dwg54FuDc=",
+        "owner": "zakk4223",
+        "repo": "hyprNStack",
+        "rev": "17594b0f93da01b4f5dae495223535029aab8ac8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zakk4223",
+        "repo": "hyprNStack",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1688500189,
@@ -189,8 +189,12 @@
       "inputs": {
         "flake-parts": "flake-parts",
         "hy3": "hy3",
-        "hyprNStack": "hyprNStack",
         "hyprland": "hyprland_2",
+        "hyprnstack": "hyprnstack",
+        "nixpkgs": [
+          "hyprland",
+          "nixpkgs"
+        ],
         "split-monitor-workspaces": "split-monitor-workspaces"
       }
     },
