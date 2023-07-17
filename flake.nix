@@ -38,21 +38,21 @@
         ...
       }: {
         packages = let
-          hyprlandBuildInputs = inputs'.hyprland.packages.hyprland.buildInputs;
-          hyprlandPackages = inputs'.hyprland.packages.hyprland;
+          pluginBuilder = (import ./lib/pluginBuilder.nix {inherit inputs inputs' pkgs;}).pluginBuilder;
         in {
           # hy3 provides its own plugin package, no need to re-invent the wheel
           hy3 = inputs'.hy3.packages.default;
 
+          test = pluginBuilder ./plugins/hyprnstack {
+            name = "hyprnstack";
+          };
+
           # rest of the plugins need to be build with our derivations
           split-monitor-workspaces = pkgs.callPackage ./plugins/split-monitor-workspaces {
-            inherit inputs hyprlandBuildInputs hyprlandPackages;
             inherit (pkgs.unixtools) whereis;
           };
 
-          hyprnstack = pkgs.callPackage ./plugins/hyprnstack {
-            inherit inputs hyprlandBuildInputs hyprlandPackages;
-          };
+          hyprnstack = pkgs.callPackage ./plugins/hyprnstack {};
         };
 
         devShells.default = pkgs.mkShell {
